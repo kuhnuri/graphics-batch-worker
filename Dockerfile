@@ -5,16 +5,18 @@ COPY docker/main.go .
 #RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 RUN go build -a -o main .
 
-FROM adoptopenjdk/openjdk11:jdk-11.0.3_7-slim
-WORKDIR /opt/app
+#FROM adoptopenjdk/openjdk11:jdk-11.0.3_7-slim
+FROM ubuntu:18.04
+
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN apt-get -y update \
-    && apt-get -y install imagemagick \
+    && apt-get -y install imagemagick locales \
     && apt-get -y clean \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
-#RUN convert --help
+
+WORKDIR /opt/app
 COPY --from=builder /go/src/github.com/kuhnuri/batch-graphics/main .
-#COPY build/dist /opt/app/lib
-#COPY docker/run.sh /opt/app/run.sh
-#RUN chmod 755 /opt/app/run.sh
 
 ENTRYPOINT ["./main"]
