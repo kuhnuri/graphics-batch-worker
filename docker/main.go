@@ -67,7 +67,7 @@ func convert(dir string) error {
 	filepath.Walk(dir, func(src string, info os.FileInfo, err error) error {
 		if to, ok := formats[filepath.Ext(src)]; ok {
 			dst := withExt(src, to)
-			fmt.Printf("INFO: Convert %s %s\n", src, dst
+			fmt.Printf("INFO: Convert %s %s\n", src, dst)
 
 			cmd := exec.Command("convert", src, dst)
 			cmd.Stdout = os.Stdout

@@ -10,7 +10,7 @@ FROM ubuntu:18.04
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN apt-get -y update \
-    && apt-get -y install imagemagick locales \
+    && apt-get -y install --no-install-recommends ca-certificates locales imagemagick \
     && apt-get -y clean \
     && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_US.UTF-8 \
