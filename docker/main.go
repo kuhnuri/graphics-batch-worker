@@ -47,18 +47,13 @@ func readArgs() *Args {
 	return &Args{src, dst, tmp, out}
 }
 
-func withExt(path string, ext string) string {
-	from := filepath.Ext(path)
-	return path[0:len(path)-len(from)] + ext
-}
-
 func convert(dir string) error {
 	formats := map[string]string{
 		".png": ".jpg",
 	}
 	filepath.Walk(dir, func(src string, info os.FileInfo, err error) error {
 		if to, ok := formats[filepath.Ext(src)]; ok {
-			dst := withExt(src, to)
+			dst := kuhnuri.WithExt(src, to)
 			fmt.Printf("INFO: Convert %s %s\n", src, dst)
 
 			cmd := exec.Command("convert", src, dst)
